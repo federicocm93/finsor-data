@@ -1,0 +1,46 @@
+{
+  "name": "finsor-data-service",
+  "version": "1.0.0",
+  "description": "Data ingestion and vector storage service for Finsor",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "seed": "ts-node src/scripts/seedData.ts"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "cors": "^2.8.5",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.0",
+    "dotenv": "^17.0.0",
+    "axios": "^1.10.0",
+    "winston": "^3.17.0",
+    "node-cron": "^3.0.3",
+    "openai": "^4.104.0",
+    "chromadb": "^1.10.5",
+    "google-trends-api": "^4.9.2",
+    "rss-parser": "^3.13.0",
+    "redis": "^4.7.0",
+    "compression": "^1.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/express": "^4.17.23",
+    "@types/cors": "^2.8.19",
+    "@types/morgan": "^1.9.10",
+    "@types/compression": "^1.7.5",
+    "@types/node-cron": "^3.0.11",
+    "typescript": "^5.8.3",
+    "ts-node": "^10.9.2",
+    "nodemon": "^3.1.10",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.12",
+    "eslint": "^8.57.1",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
+    "@typescript-eslint/parser": "^8.1.0"
+  }
+}
