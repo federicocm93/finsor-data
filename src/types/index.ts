@@ -15,9 +15,12 @@ export interface VectorData {
     type: string;
     timestamp: number;
     symbol?: string;
+    url?: string;
+    title?: string;
     [key: string]: any;
   };
   content: string;
+  distance?: number;
 }
 
 export interface NewsItem {
@@ -83,6 +86,17 @@ export interface QueryResponse {
   total: number;
   query: string;
   processingTime: number;
+  references: Reference[];
+}
+
+export interface Reference {
+  id: string;
+  source: string;
+  type: string;
+  timestamp: Date;
+  url?: string;
+  title?: string;
+  symbol?: string;
 }
 
 export interface IngestionConfig {

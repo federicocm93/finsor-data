@@ -56,7 +56,7 @@ export class DataController {
         };
       }
 
-      const results = await this.vectorService.query(query, {
+      const { results, references } = await this.vectorService.query(query, {
         type,
         limit,
         timeRange: parsedTimeRange,
@@ -68,6 +68,7 @@ export class DataController {
         total: results.length,
         query,
         processingTime: Date.now() - startTime,
+        references,
       };
 
       // Cache the results for 5 minutes
@@ -154,7 +155,7 @@ export class DataController {
         end: new Date(),
       };
 
-      const results = await this.vectorService.query('', {
+      const { results, references } = await this.vectorService.query('', {
         type: type ? [type as string] : undefined,
         limit: parseInt(limit as string),
         timeRange,
@@ -165,6 +166,7 @@ export class DataController {
         total: results.length,
         timeRange,
         type: type || 'all',
+        references,
       });
     } catch (error) {
       logger.error('Failed to get recent data:', error);
@@ -187,7 +189,7 @@ export class DataController {
         return;
       }
 
-      const results = await this.vectorService.query(symbol.toUpperCase(), {
+      const { results, references } = await this.vectorService.query(symbol.toUpperCase(), {
         symbols: [symbol.toUpperCase()],
         type: type ? [type as string] : undefined,
         limit: parseInt(limit as string),
@@ -198,6 +200,7 @@ export class DataController {
         total: results.length,
         symbol: symbol.toUpperCase(),
         type: type || 'all',
+        references,
       });
     } catch (error) {
       logger.error('Failed to search by symbol:', error);

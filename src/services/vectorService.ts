@@ -1,5 +1,5 @@
 import { ChromaClient, OpenAIEmbeddingFunction } from 'chromadb';
-import { VectorData, DataSource } from '../types';
+import { VectorData, DataSource, Reference } from '../types';
 import { config } from '../config';
 import logger from '../utils/logger';
 
@@ -62,7 +62,7 @@ export class VectorService {
     limit?: number;
     timeRange?: { start: Date; end: Date };
     symbols?: string[];
-  } = {}): Promise<VectorData[]> {
+  } = {}): Promise<{ results: VectorData[]; references: Reference[] }> {
     try {
       const { limit = 10, type, timeRange, symbols } = options;
       
@@ -118,7 +118,10 @@ export class VectorService {
       
       logger.info(`ChromaDB query completed successfully, returned ${results.documents?.[0]?.length || 0} results`);
 
-      return this.formatQueryResults(results);
+      const formattedResults = this.formatQueryResults(results);
+      const references = this.extractReferences(formattedResults);
+      
+      return { results: formattedResults, references };
     } catch (error) {
       logger.error('Failed to query vector database:', error);
       throw error;
@@ -202,6 +205,18 @@ export class VectorService {
       metadata: metadatas[index] || {},
       content: doc,
       distance: distances[index],
+    }));
+  }
+
+  private extractReferences(results: VectorData[]): Reference[] {
+    return results.map(result => ({
+      id: result.id,
+      source: result.metadata.source,
+      type: result.metadata.type,
+      timestamp: new Date(result.metadata.timestamp * 1000),
+      url: result.metadata.url,
+      title: result.metadata.title,
+      symbol: result.metadata.symbol,
     }));
   }
 }

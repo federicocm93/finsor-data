@@ -36,6 +36,7 @@ export class DataSourceService {
                 content: `${item.title}\n\n${item.contentSnippet}`,
                 metadata: {
                   url: item.link,
+                  title: item.title,
                   author: item.creator,
                   categories: item.categories,
                 },
